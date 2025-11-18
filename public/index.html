@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Alunos - Nova Pay</title>
+    <link href="./styles.css" rel="stylesheet">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script src="./js/formatters.js" defer></script>
+    <script src="./js/main.js" defer></script>
+</head>
+<body class="h-full">
+    <div class="min-h-full p-4 sm:p-6 lg:p-8">
+        <div class="max-w-7xl mx-auto">
+            <header class="bg-white shadow-sm rounded-lg">
+                <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-2xl font-bold leading-tight text-gray-900">Relatório de Alunos</h1>
+                </div>
+            </header>
+
+            <main class="mt-6">
+                <!-- Filters -->
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h2 class="text-lg font-medium text-gray-800 mb-4">Filtros de Alunos</h2>
+                    <form id="filter-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700">Status do Aluno</label>
+                            <select id="status" name="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option value="paid">Pago</option>
+                                <option value="pending">Pendente</option>
+                                <option value="failed">Falhou</option>
+                                <option value="canceled">Cancelado</option>
+                                <option value="all">Todos</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="initial_date" class="block text-sm font-medium text-gray-700">Data Inicial</label>
+                            <input type="date" name="initial_date" id="initial_date" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div>
+                            <label for="final_date" class="block text-sm font-medium text-gray-700">Data Final</label>
+                            <input type="date" name="final_date" id="final_date" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        <div class="self-end">
+                            <button type="submit" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Aplicar Filtros de Alunos
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Export Button -->
+                <div class="mt-4">
+                    <button id="export-button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Exportar para Excel
+                    </button>
+                </div>
+
+                <!-- Loading and Error Messages -->
+                <div id="message-container" class="mt-6"></div>
+
+                <!-- Counters -->
+                <div id="counters" class="mt-4"></div>
+
+                <!-- Table -->
+                <div id="table-container" class="mt-6 flex flex-col">
+                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                            <div id="table-wrapper" class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                <!-- Table will be dynamically generated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

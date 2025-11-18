@@ -1,0 +1,14 @@
+{
+    "data": [
+        {
+            "id": "1",
+            "page_title": "Checkout Page 1",
+            "url": "https://example.com/checkout/1"
+        },
+        {
+            "id": "2",
+            "page_title": "Checkout Page 2",
+            "url": "https://example.com/checkout/2"
+        }
+    ]
+}
