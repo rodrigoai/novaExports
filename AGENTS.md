@@ -29,3 +29,10 @@
 ## Environment & Security Tips
 - Populate `.env` with `NOVA_TOKEN`/`NOVA_TENANT` before running the server and never commit that file.
 - Existing log statements surface fetch failures; leave them in place so reviewers can trace API errors during manual checks.
+
+## Vercel Deployment Configuration
+- `vercel.json` routes every request to `index.js`, letting Express serve `/api` and the `public/` assets together through the Node Serverless entry point.
+- Before a deploy, use `vercel env add NOVA_TOKEN production` (repeat for `preview` if you want staging data) and `vercel env add NOVA_TENANT production` so the CLI injects the secrets in Vercel’s dashboard; this keeps sensitive values out of the repo.
+- Trigger your preview deploy via `vercel --confirm` and promote it with `vercel --prod`; if anything fails, inspect the CLI logs for the serverless function errors and adjust `index.js` output or the `public` assets accordingly.
+- Populate `.env` with `NOVA_TOKEN`/`NOVA_TENANT` before running the server and never commit that file.
+- Existing log statements surface fetch failures; leave them in place so reviewers can trace API errors during manual checks.
