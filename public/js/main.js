@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageContainer = document.getElementById('message-container');
     const countersContainer = document.getElementById('counters');
     const exportButton = document.getElementById('export-button');
+    const checkoutPageSelect = document.getElementById('checkout_page');
 
     let allOrders = [];
     let currentOrders = [];
@@ -68,14 +69,54 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             allOrders = data;
-            currentOrders = data;
-            sortAndRenderTable();
+            populateCheckoutFilter(data);
+            applyClientFilters();
 
         } catch (error) {
             console.error('Fetch error:', error);
             showMessage('error', 'Erro na Requisição', `Não foi possível buscar os dados. Detalhes: ${error.message}`);
             tableContainer.innerHTML = '';
         }
+    }
+
+    // --- Client-Side Filtering ---
+    function populateCheckoutFilter(orders) {
+        const checkoutPages = new Set();
+        orders.forEach(order => {
+            if (order.page_title) {
+                checkoutPages.add(order.page_title);
+            }
+        });
+
+        const sortedPages = Array.from(checkoutPages).sort();
+
+        // Save current selection if it exists
+        const currentSelection = checkoutPageSelect.value;
+
+        checkoutPageSelect.innerHTML = '<option value="all">Todas</option>';
+        sortedPages.forEach(page => {
+            const option = document.createElement('option');
+            option.value = page;
+            option.textContent = page;
+            checkoutPageSelect.appendChild(option);
+        });
+
+        // Restore selection if it's still valid
+        if (sortedPages.includes(currentSelection)) {
+            checkoutPageSelect.value = currentSelection;
+        }
+    }
+
+    function applyClientFilters() {
+        const selectedPage = checkoutPageSelect.value;
+
+        if (selectedPage === 'all') {
+            currentOrders = [...allOrders];
+        } else {
+            currentOrders = allOrders.filter(order => order.page_title === selectedPage);
+        }
+        
+        sortAndRenderTable();
     }
 
     // --- Counters ---
@@ -235,6 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     exportButton.addEventListener('click', exportTableToExcel);
+    checkoutPageSelect.addEventListener('change', applyClientFilters);
 
     // --- Initial Load ---
     fetchOrders({ status: 'paid' });
